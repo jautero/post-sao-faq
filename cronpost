@@ -1,0 +1,13 @@
+#!/bin/sh
+# 
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/games
+postfaqdate=17
+cd $HOME/post-sao-faq/
+for faq in sao-faq saoa-faq 
+do
+    if test `date +%d` -eq $postfaqdate ;then
+	echo "Posting $faq"
+	./post.sh $faq
+    fi
+done
+
