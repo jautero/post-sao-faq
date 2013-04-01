@@ -2,9 +2,8 @@
 
 set -e
 
-# Set CVSROOT for sao-faq
-#CVSROOT=/var/cvs
-#export CVSROOT
+# Set GITREPO for sao-faq
+GITREPO=git@github.com:jautero/sao-faq.git
 
 faq=$1
 sigfile=$HOME/.signature-faq
@@ -32,12 +31,12 @@ fi
 new_msgid=\<sao-faq-`date +%s`-$$-`./random`@`cat /etc/mailname`\>
 
 if [ ! -d sao-faq ]; then
-    cvs checkout sao-faq
+    git clone $GITREPO
 fi
 
-( cd sao-faq && cvs update && make )
+( cd sao-faq && git pull && make )
 
-version=`cvs status sao-faq/$faq.sgml | awk '/Working revision:/ {print $3}'`
+version=`cd sao-faq; git rev-list HEAD | wc -l`
 
 (
     echo "From: $maintainer <$maintainer_email>"
